@@ -5,19 +5,20 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from collections.abc import AsyncGenerator
 
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker
+    from sqlalchemy.ext.asyncio import AsyncEngine
 
-DATABASE_URL = "postgresql+asyncpg://postgres:postgres@db:5432/app"
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+
+DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@db:5432/app"
 
 
-engine = create_async_engine(
+engine: AsyncEngine = create_async_engine(
     url=DATABASE_URL,
     echo=True,
 )
 
 
-AsyncSessionLocal = sessionmaker(
+AsyncSessionLocal: async_sessionmaker = async_sessionmaker(
     bind=engine,
     class_=AsyncSession,
     expire_on_commit=False,

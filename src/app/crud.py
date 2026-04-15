@@ -3,6 +3,7 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from sqlalchemy import Result
     from sqlalchemy.ext.asyncio import AsyncSession
 
     from src.app.schemas import UserCreate
@@ -23,11 +24,11 @@ async def create_user(db: AsyncSession, user: UserCreate) -> User:
 
 async def get_users(db: AsyncSession) -> list[User]:
     """Retrieve all users from the database."""
-    result = await db.execute(select(User))
-    return result.scalars.all()
+    result: Result = await db.execute(select(User))
+    return list(result.scalars().all())
 
 
 async def get_user(db: AsyncSession, user_id: int) -> User | None:
     """Retrieve a specific user from the database."""
-    result = await db.execute(select(User).where(User.id == user_id))
+    result: Result = await db.execute(select(User).where(User.id == user_id))
     return result.scalar_one_or_none()

@@ -1,9 +1,12 @@
 """Alembic environment configuration."""
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
+    from alembic.config import Config
     from sqlalchemy.engine import Connection
+    from sqlalchemy.ext.asyncio import AsyncEngine
+    from sqlalchemy.sql.schema import MetaData
 
 import asyncio
 from logging.config import fileConfig
@@ -14,17 +17,17 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from src.app.models import Base
 
-config = context.config
+config: Config = context.config
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-target_metadata = Base.metadata
+target_metadata: MetaData = Base.metadata
 
 
 def run_migrations_offline() -> None:
     """Run Alembic migrations in an offline context."""
-    url = config.get_main_option("sqlalchemy.url")
+    url: str | None = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -52,8 +55,9 @@ def do_run_migrations(connection: Connection) -> None:
 
 async def run_migrations_online() -> None:
     """Run Alembic migrations in an online context."""
-    connectable = async_engine_from_config(
-        config.get_section(config.config_ini_section),
+    section: dict[str, Any] = config.get_section(config.config_ini_section) or {}
+    connectable: AsyncEngine = async_engine_from_config(
+        configuration=section,
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
@@ -72,4 +76,5 @@ def run() -> None:
         asyncio.run(run_migrations_online())
 
 
-run()
+if __name__ == "__main__":
+    run()
