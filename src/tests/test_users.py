@@ -1,9 +1,13 @@
 """Test module for users."""
 
-from collections.abc import AsyncGenerator
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import AsyncGenerator
+
+    from httpx import AsyncClient
 
 import pytest
-from httpx import AsyncClient
 
 STATUS_OK: int = 200
 

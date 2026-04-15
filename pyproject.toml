@@ -24,8 +24,8 @@ dev = [
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["ANN401", "COM812", "D104", "D107", "D203", "D213"]
-per-file-ignores = { "src/tests/*" = ["S101", "TC002", "TC003"] }
+ignore = ["ANN401", "B008", "COM812", "D104", "D107", "D203", "D213", "D413"]
+per-file-ignores = { "src/tests/*" = ["S101"] }
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
