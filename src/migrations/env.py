@@ -1,11 +1,16 @@
+"""Alembic environment configuration."""
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from sqlalchemy.engine import Connection
+
 import asyncio
 from logging.config import fileConfig
 
-from sqlalchemy import pool
-from sqlalchemy.engine import Connection
-from sqlalchemy.ext.asyncio import async_engine_from_config
-
 from alembic import context
+from sqlalchemy import pool
+from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from src.app.models import Base
 
@@ -17,7 +22,8 @@ if config.config_file_name is not None:
 target_metadata = Base.metadata
 
 
-def run_migrations_offline():
+def run_migrations_offline() -> None:
+    """Run Alembic migrations in an offline context."""
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
@@ -30,7 +36,11 @@ def run_migrations_offline():
         context.run_migrations()
 
 
-def do_run_migrations(connection: Connection):
+def do_run_migrations(connection: Connection) -> None:
+    """Run Alembic migrations.
+
+    This is used in running the migrations in an online context
+    """
     context.configure(
         connection=connection,
         target_metadata=target_metadata,
@@ -40,7 +50,8 @@ def do_run_migrations(connection: Connection):
         context.run_migrations()
 
 
-async def run_migrations_online():
+async def run_migrations_online() -> None:
+    """Run Alembic migrations in an online context."""
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section),
         prefix="sqlalchemy.",
@@ -53,7 +64,8 @@ async def run_migrations_online():
     await connectable.dispose()
 
 
-def run():
+def run() -> None:
+    """Run the Alembic migrations online or offline, depending on context."""
     if context.is_offline_mode():
         run_migrations_offline()
     else:
