@@ -1,3 +1,5 @@
+"""Configure pytest."""
+
 from collections.abc import AsyncGenerator
 
 import pytest
