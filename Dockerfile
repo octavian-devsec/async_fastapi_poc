@@ -2,8 +2,7 @@ FROM python:3
 
 RUN apt update && apt install -y --no-install-recommends curl ca-certificates
 
-ADD https://astral.sh/uv/install.sh /uv-installer.sh
-RUN sh /uv-installer.sh && rm /uv-installer.sh
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/root/.local/bin/:$PATH"
 
 WORKDIR /application
