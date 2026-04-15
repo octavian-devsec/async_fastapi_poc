@@ -2,6 +2,9 @@
 
 run:
 	docker compose up --build
+new_migration:
+	docker exec -it async_fastapi_poc-api-1 uv run python -m alembic revision --autogenerate
+	sudo chown ${USER}:${USER} ./src/alembic/versions/*
 test:
 	docker exec -it async_fastapi_poc-api-1 uv run python -m pytest -s
 lint:
@@ -17,6 +20,6 @@ clean:
 	rm -rf ./.ruff_cache/
 	rm -rf ./tests/__pycache__/
 	rm -rf ./alembic/__pycache__/
+	rm -rf ./alembic/versions/__pycache__/
 	rm -rf ./app/__pycache__/
 	rm -rf ./app/api/__pycache__/
-	docker compose down -v
