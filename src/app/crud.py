@@ -29,9 +29,5 @@ async def get_users(db: AsyncSession) -> list[User]:
 
 async def get_user(db: AsyncSession, user_id: int) -> User | None:
     """Retrieve a specific user from the database."""
-    result = await db.execute(
-        select(User).where(
-            User.id == user_id
-        )
-    )
+    result = await db.execute(select(User).where(User.id == user_id))
     return result.scalar_one_or_none()

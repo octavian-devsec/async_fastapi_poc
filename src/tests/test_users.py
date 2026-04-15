@@ -16,11 +16,7 @@ STATUS_OK: int = 200
 async def test_create_user(client: AsyncGenerator[AsyncClient]) -> None:
     """Test create user endpoint."""
     result = await client.post(
-        url="/users/",
-        json={
-            "email": "test@test.com",
-            "name": "Test"
-        }
+        url="/users/", json={"email": "test@test.com", "name": "Test"}
     )
     assert result.status_code == STATUS_OK
     assert result.json()["email"] == "test@test.com"

@@ -17,10 +17,10 @@ router = APIRouter(
     tags=["users"],
 )
 
+
 @router.post("/", response_model=schemas.UserOut)
 async def create_user(
-    user: schemas.UserCreate,
-    db: Annotated[AsyncSession, Depends(get_db)]
+    user: schemas.UserCreate, db: Annotated[AsyncSession, Depends(get_db)]
 ) -> User:
     """POST / endpoint.
 
@@ -31,9 +31,7 @@ async def create_user(
 
 
 @router.get("/", response_model=list[schemas.UserOut])
-async def get_users(
-    db: Annotated[AsyncSession, Depends(get_db)]
-) -> list[User]:
+async def get_users(db: Annotated[AsyncSession, Depends(get_db)]) -> list[User]:
     """GET / endpoint.
 
     Return a list of all users stored in the database.
@@ -42,10 +40,7 @@ async def get_users(
 
 
 @router.get("/{user_id}", response_model=schemas.UserOut)
-async def get_user(
-    user_id: int,
-    db: Annotated[AsyncSession, Depends(get_db)]
-) -> User:
+async def get_user(user_id: int, db: Annotated[AsyncSession, Depends(get_db)]) -> User:
     """GET /{user_id} endpoint.
 
     Retrieve a single user by ID.

@@ -21,4 +21,3 @@ class UserOut(UserBase):
         from_attributes=True,
     )
     id: int
-
